@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagos - Ópticas Dr. Mejía</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar"></aside>
+
+        <main class="main-content">
+            <div class="page-header">
+                <div>
+                    <h1>Gestión de Pagos</h1>
+                    <p class="text-muted">Registra los pagos de las órdenes completadas</p>
+                </div>
+                <button class="btn btn-primary" onclick="openAddModal()" id="btnRegistrar">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                    Registrar Pago
+                </button>
+            </div>
+
+            <!-- Estadísticas -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: rgba(37, 99, 235, 0.1); color: #2563eb;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="1" x2="12" y2="23"></line>
+                            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                        </svg>
+                    </div>
+                    <div class="stat-content">
+                        <p class="stat-label">Total Pagado</p>
+                        <p class="stat-value" id="totalPagado">$0.00</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: rgba(16, 185, 129, 0.1); color: #10b981;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                        </svg>
+                    </div>
+                    <div class="stat-content">
+                        <p class="stat-label">Pagos Hoy</p>
+                        <p class="stat-value" id="pagosHoy">$0.00</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: rgba(245, 158, 11, 0.1); color: #f59e0b;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="17 8 12 3 7 8"></polyline>
+                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                        </svg>
+                    </div>
+                    <div class="stat-content">
+                        <p class="stat-label">Este Mes</p>
+                        <p class="stat-value" id="pagosMes">$0.00</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: rgba(139, 92, 246, 0.1); color: #8b5cf6;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+                            <line x1="7" y1="7" x2="7.01" y2="7"></line>
+                        </svg>
+                    </div>
+                    <div class="stat-content">
+                        <p class="stat-label">Cantidad de Pagos</p>
+                        <p class="stat-value" id="cantidadPagos">0</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filtros -->
+            <div class="card">
+                <div class="filters-row">
+                    <div class="form-group">
+                        <input type="text" id="searchInput" placeholder="Buscar por orden, proveedor o referencia..." class="search-input">
+                    </div>
+                    <div class="form-group">
+                        <select id="periodoFilter" class="filter-select">
+                            <option value="">Todos</option>
+                            <option value="hoy">Hoy</option>
+                            <option value="semana">Esta semana</option>
+                            <option value="mes">Este mes</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabla -->
+            <div class="card">
+                <div class="table-container">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Orden</th>
+                                <th>Proveedor</th>
+                                <th>Monto</th>
+                                <th>Método</th>
+                                <th>Referencia</th>
+                                <th>Fecha</th>
+                                <th>Comprobante</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pagosBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal -->
+    <div id="modalPago" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Registrar Pago</h2>
+                <button class="modal-close" onclick="closeModal()">×</button>
+            </div>
+            <form id="pagoForm">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Orden a Pagar *</label>
+                        <select id="ordenId" required></select>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Monto *</label>
+                            <input type="number" id="monto" step="0.01" readonly required>
+                        </div>
+                        <div class="form-group">
+                            <label>Método de Pago *</label>
+                            <select id="metodoPago" required>
+                                <option value="">Seleccionar</option>
+                                <option value="Transferencia">Transferencia</option>
+                                <option value="Efectivo">Efectivo</option>
+                                <option value="Cheque">Cheque</option>
+                                <option value="Tarjeta">Tarjeta</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Referencia/Comprobante</label>
+                        <input type="text" id="referencia" placeholder="Número de referencia o comprobante">
+                    </div>
+                    <div class="form-group">
+                        <label>Notas</label>
+                        <textarea id="notas" rows="2"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline" onclick="closeModal()">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Registrar Pago</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/storage.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/pagos.js"></script>
+</body>
+</html>

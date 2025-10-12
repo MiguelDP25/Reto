@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ópticas Dr. Mejía - Sistema de Gestión</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="public-page">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-container">
+                <div class="logo-Index">
+                    <div style= "text-align: center;"></div>
+                    <img src="public/logo.png" alt="Ópticas Dr. Mejía" class="logo">
+                </div>
+                <nav class="header-nav">
+                    <a href="#ordenes" class="nav-link">Órdenes</a>
+                    <a href="#proveedores" class="nav-link">Proveedores</a>
+                    <a href="#estadisticas" class="nav-link">Estadísticas</a>
+                    <a href="login.html" class="btn-login">Iniciar Sesión</a>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="public-content">
+            <!-- Hero Section -->
+            <section class="hero-section">
+                <div class="hero-content">
+                    <h1>Sistema de Gestión de Órdenes</h1>
+                    <p>Gestiona tus órdenes, proveedores y pagos de manera eficiente</p>
+                    <div class="hero-actions">
+                        <a href="#ordenes" class="btn btn-primary">Ver Órdenes</a>
+                        <a href="login.html" class="btn btn-outline">Acceder al Sistema</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Estadísticas Públicas -->
+            <section id="estadisticas" class="stats-section">
+                <h2>Estadísticas Generales</h2>
+                <div class="stats-grid" id="publicStats"></div>
+            </section>
+
+            <!-- Órdenes Públicas (Solo vista) -->
+            <section id="ordenes" class="section">
+                <div class="section-header">
+                    <h2>Órdenes Recientes</h2>
+                    <p class="text-muted">Vista de solo lectura - <a href="login.html">Inicia sesión</a> para editar</p>
+                </div>
+                <div class="card">
+                    <div class="table-container">
+                        <table class="table" id="ordenesTable">
+                            <thead>
+                                <tr>
+                                    <th>Número</th>
+                                    <th>Cliente</th>
+                                    <th>Proveedor</th>
+                                    <th>Tipo</th>
+                                    <th>Precio</th>
+                                    <th>Estado</th>
+                                    <th>Fecha</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ordenesBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Proveedores Públicos (Solo vista) -->
+            <section id="proveedores" class="section">
+                <div class="section-header">
+                    <h2>Proveedores Activos</h2>
+                    <p class="text-muted">Vista de solo lectura - <a href="login.html">Inicia sesión</a> para gestionar</p>
+                </div>
+                <div class="proveedores-grid" id="proveedoresGrid"></div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>© 2025 Ópticas Dr. Mejía - Sistema de Gestión</p>
+        </footer>
+    </div>
+
+    <script src="js/storage.js"></script>
+    <script src="js/public.js"></script>
+</body>
+</html>
